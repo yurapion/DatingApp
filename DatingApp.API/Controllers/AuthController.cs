@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DatingApp.API.Controllers
 {
@@ -48,6 +49,7 @@ namespace DatingApp.API.Controllers
 
         }
 
+         [AllowAnonymous]
         [HttpPost("login")]
         public async  Task<IActionResult> Login (UseForLoginrDto userForLoginrDto)
         {

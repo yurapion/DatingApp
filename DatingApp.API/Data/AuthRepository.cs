@@ -20,8 +20,8 @@ namespace DatingApp.API.Data
             if (user == null) return null;
 
             if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt)) return null;
-
-            return user;
+           // var user = new User();
+           return user;
         }
 
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
@@ -41,10 +41,11 @@ namespace DatingApp.API.Data
 
         public async Task<User> Register(User user, string password)
         {
-            
-           var HashSalt = CreatePasswordHash(password);
-            user.PasswordHash = HashSalt.passwordHash;
-            user.PasswordSalt = HashSalt.passwordSalt;
+           
+            byte[] passwordSalt, passwordHash;
+            CreatePasswordHash(password, out passwordSalt, out passwordHash );
+            user.PasswordHash = passwordHash;
+            user.PasswordSalt = passwordSalt;
 
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
@@ -52,13 +53,13 @@ namespace DatingApp.API.Data
             return user;
         }
 
-        private PasswordHashSaltValues CreatePasswordHash(string password)
+        private void CreatePasswordHash(string password, out byte[] passwordSalt, out byte[] passwordHash)
         {
            // System.Security.Cryptography.HMACSHA512 hmac1;
            using (var hmac = new System.Security.Cryptography.HMACSHA512())
            { 
-             //  hmac1 = hmac;
-                return new PasswordHashSaltValues(hmac.Key,hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password)));
+             passwordSalt = hmac.Key;
+             passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
            }
         }
 
@@ -71,13 +72,13 @@ namespace DatingApp.API.Data
     }
 }
 
-    class PasswordHashSaltValues
-    {
-        public PasswordHashSaltValues(byte[] key, byte[] hash)
-        {
-            passwordSalt = key;
-            passwordHash = hash;
-        }
-        public byte[] passwordHash { get; set; }
-        public byte[] passwordSalt { get; set; }
-    }
+    // class PasswordHashSaltValues
+    // {
+    //     public PasswordHashSaltValues(byte[] key, byte[] hash)
+    //     {
+    //         passwordSalt = key;
+    //         passwordHash = hash;
+    //     }
+    //     public byte[] passwordHash { get; set; }
+    //     public byte[] passwordSalt { get; set; }
+    // }

@@ -3,6 +3,9 @@ import {HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse,
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
+// tslint:disable-next-line: comment-format
+//Create a class for handeling errors
+
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
