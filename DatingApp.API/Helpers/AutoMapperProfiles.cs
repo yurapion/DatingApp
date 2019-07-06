@@ -8,7 +8,7 @@ namespace DatingApp.API.Helpers
 {
     // We Created a new class to tell automaper what type he must support
     public class AutoMapperProfiles : Profile
-    {
+    {  
         public AutoMapperProfiles()
         {
             //ForMember - specify the way how to get value to prop PhotoUrl in UserForListDto
