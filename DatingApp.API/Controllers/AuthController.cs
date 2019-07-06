@@ -49,7 +49,7 @@ namespace DatingApp.API.Controllers
 
         }
 
-         [AllowAnonymous]
+        
         [HttpPost("login")]
         public async  Task<IActionResult> Login (UseForLoginrDto userForLoginrDto)
         {

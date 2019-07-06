@@ -25,10 +25,10 @@ return this.http.post(this.baseUrl + 'login', model).pipe(
         this.decodedToken = this.jwtHelper.decodeToken(user.token);
       }
     } )
-  )
+  );
 }
 
-register(model:any){
+register(model: any) {
   return this.http.post(this.baseUrl + 'register', model);
 }
 

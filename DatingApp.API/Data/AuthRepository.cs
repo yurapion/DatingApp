@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DatingApp.API.Data
 {
+     // Check ConfigureServices() in Startup to see the binding
     public class AuthRepository : IAuthRepository
     {
         private readonly DataContext _context;
