@@ -14,7 +14,8 @@ import { AuthService } from 'src/app/_services/auth.service';
 export class MemberEditComponent implements OnInit {
 @ViewChild('editForm') editForm: NgForm;
 user: User;
-@HostListener('window:boforeunload', ['$event'])
+photoUrl: string;
+@HostListener('window:beforeunload', ['$event'])
 unloadNotification($event: any) {
   if (this.editForm.dirty) {
     $event.returnValue = true;
@@ -27,10 +28,12 @@ unloadNotification($event: any) {
     this.route.data.subscribe(data => {
 this.user = data['user'];
     });
+    this.authService.currentPhotoUrl.subscribe(photoUrl => this.photoUrl = photoUrl);
   }
 
   updateUser() {
-    this.userService.updateUser(this.authService.decodedToken.nameid, this.user).subscribe(next => {
+    this.userService.updateUser(this.authService.decodedToken.nameid, this.user)
+    .subscribe(next => {
       this.alertify.success('Profile updated');
       this.editForm.reset(this.user);
     }, error => {

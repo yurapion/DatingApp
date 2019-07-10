@@ -43,6 +43,9 @@ namespace DatingApp.API
             .AddJsonOptions(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddCors();
+            
+            // Do Configuration for Cloudinary, math settings from app.json and our class
+            services.Configure<CloudinarySetings>(Configuration.GetSection("CloudinarySettings"));
             //Include Automapper service
             services.AddAutoMapper();
 
@@ -94,7 +97,10 @@ namespace DatingApp.API
            // Call the method to seed our db
            // seeder.SeedUsers();
            //
-           app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
+           // Allow Headers to stop getting wrong error
+           app.UseCors(x => x.WithOrigins("http://localhost:4200")
+                .AllowAnyHeader().AllowAnyMethod().AllowCredentials());
            app.UseAuthentication();
            app.UseMvc();
             
