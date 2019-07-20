@@ -35,14 +35,15 @@ return this.http.post(this.baseUrl + 'login', model).pipe(
         this.decodedToken = this.jwtHelper.decodeToken(user.token);
         localStorage.setItem('user', JSON.stringify(user.user));
         this.currentUser = user.user;
-        this.changeMemberPhoto(this.currentUser.photoUrl);
+        // this.currentUser.photoUrl = '../../assets/user.png';
+        this.changeMemberPhoto(this.currentUser.photoUrl ? this.currentUser.photoUrl : '../../assets/user.png');
       }
     } )
   );
 }
 
-register(model: any) {
-  return this.http.post(this.baseUrl + 'register', model);
+register(user: User) {
+  return this.http.post(this.baseUrl + 'register', user);
 }
 
 loggedIn() {
